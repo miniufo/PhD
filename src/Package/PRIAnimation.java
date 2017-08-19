@@ -67,7 +67,7 @@ public class PRIAnimation{
 		dw.writeData(dd,wnd,prs);	dw.closeFile();
 		
 		Variable[] idx1=IndexInSC.c2DHorizontalIndex(
-			dd2,rngs,tr,0.3f,19,36,"REFC"//,"PEFC","AEFC","EAMA","FFCT","FFBS"
+			dd2,rngs,tr,0.3f,19,36,9,18,"REFC"//,"PEFC","AEFC","EAMA","FFCT","FFBS"
 		);
 		//Variable[] idx2=IndexInSC.c2DHorizontalIndex(
 		//	dd2,"lon(70,180);lat(12,58)",0.3f,19,72,"REFC","PEFC","AEFC","EAMA","FFCT","FFBS"

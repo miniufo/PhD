@@ -32,9 +32,9 @@ public class HorizontalIndex{
 		Variable[] wind=df.getVariables(r,"u","v");
 		
 		Variable[] idx1=IndexInSC.c2DHorizontalIndex(dd,"lon(90,150);lat(15,55);"+tr.getTRange(),tr,
-		0.3f,19,72,"REFC","PEFC","AEFC","EAMA","FFCT","FFBS");
+		0.3f,19,72,9,18,"REFC","PEFC","AEFC","EAMA","FFCT","FFBS");
 		Variable[] idx2=IndexInSC.c2DHorizontalIndex(dd,"lon(90,150);lat(15,55);"+tr.getTRange(),
-		0.3f,19,72,"REFC","PEFC","AEFC","EAMA","FFCT","FFBS");
+		0.3f,19,72,9,18,"REFC","PEFC","AEFC","EAMA","FFCT","FFBS");
 		
 		DataWrite dw2=DataIOFactory.getDataWrite(dd,"d:/Data/DiagnosisVortex/"+name+"/PRI/PRIanimation.dat");
 		dw2.writeData(dd,ArrayUtil.concatAll(Variable.class,wind,idx1,idx2));	dw2.closeFile();
