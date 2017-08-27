@@ -67,7 +67,7 @@ public class EFCVariance{
 			Variable[] vars=df.getVariables(new Range("",dd),false,"u","v");
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			Variable efcsm=dm.cRadialAverage(dm.cREFC(utvr[0],utvr[1]), 9,18);	// 300-600 km

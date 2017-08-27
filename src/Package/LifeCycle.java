@@ -62,7 +62,7 @@ public class LifeCycle{
 			Variable sstm=dm.cRadialAverage(vars[2],1,15).anomalizeX().minusEq(273.15f);
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			Variable efclm=dm.cRadialAverage(dm.cREFC(utvr[0],utvr[1]),15,24);	// 500-800 km

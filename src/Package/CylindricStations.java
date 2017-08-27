@@ -58,7 +58,7 @@ public class CylindricStations{
 			Variable[] vars=df.getVariables(new Range("",dd),false,"u","v");
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			Variable efcsm=dm.cRadialAverage(dm.cREFC(utvr[0],utvr[1]),9,18);	// 300-600 km
@@ -74,9 +74,9 @@ public class CylindricStations{
 			boolean[] lsmb=noLanding?	// no land within 200 km
 				IntensityModel.lessThan(lsmm.getData()[0][0][0],1e-9f):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] llon=withinWNP?	// lons >= 100E
-				IntensityModel.greaterEqualThan(tr.getLongitudes(),100):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.greaterEqualThan(tr.getXPositions(),100):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] rlon=withinWNP?	// lons <= 190E
-				IntensityModel.lessEqualThan(tr.getLongitudes(),190):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.lessEqualThan(tr.getXPositions(),190):IntensityModel.newBooleans(tr.getTCount());
 			
 			boolean[] hghEFCS =IntensityModel.ABSgreaterEqualThan(efcsm.getData()[1][0][0],threshold);
 			boolean[] combEFCS=IntensityModel.combination(wind,hghEFCS,lsmb,llon,rlon);

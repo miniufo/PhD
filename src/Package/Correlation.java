@@ -78,7 +78,7 @@ public class Correlation{
 			Variable sstm=dm.cRadialAverage(vars[2],1,15).anomalizeX().minusEq(273.15f);
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			//Variable efclm=dm.cRadialAverage(dm.cREFC(utvr[0],utvr[1]),15,24);	// 500-800 km
@@ -92,9 +92,9 @@ public class Correlation{
 			boolean[] lsmb=noLanding?	// no land within 200 km
 				IntensityModel.lessThan(lsmm.getData()[0][0][0],1e-9f):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] llon=withinWNP?	// lons >= 100E
-				IntensityModel.greaterEqualThan(tr.getLongitudes(),100):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.greaterEqualThan(tr.getXPositions(),100):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] rlon=withinWNP?	// lons <= 190E
-				IntensityModel.lessEqualThan(tr.getLongitudes(),190):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.lessEqualThan(tr.getXPositions(),190):IntensityModel.newBooleans(tr.getTCount());
 			
 			float[] EFC=efcsm.getData()[1][0][0];
 			float[] VWS= vwsm.getData()[0][0][0];
@@ -319,7 +319,7 @@ public class Correlation{
 			));
 			
 			sb.append(String.format("%10d, %4.1f¡ãN, %5.1f¡ãE, %5.1f, %4.1f, %4.1f, %4.1f\n",
-				tr.getTime(str),tr.getLatitudes()[str],tr.getLongitudes()[str],EFC,SST,VWS,POT
+				tr.getTime(str),tr.getYPositions()[str],tr.getXPositions()[str],EFC,SST,VWS,POT
 			));
 			
 			return sb.toString();

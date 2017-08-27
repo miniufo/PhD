@@ -70,7 +70,7 @@ public class VWSEFC{
 			Variable sstm=dm.cRadialAverage(vars[2],1,15).anomalizeX().minusEq(273.15f);
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			Variable efcsm=dm.cRadialAverage(dm.cREFC(utvr[0],utvr[1]), 9,18);	// 300-600 km
@@ -83,9 +83,9 @@ public class VWSEFC{
 			boolean[] lsmb=noLanding?	// no land within 200 km
 				IntensityModel.lessThan(lsmm.getData()[0][0][0],1e-9f):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] llon=withinWNP?	// lons >= 100E
-				IntensityModel.greaterEqualThan(tr.getLongitudes(),100):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.greaterEqualThan(tr.getXPositions(),100):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] rlon=withinWNP?	// lons <= 190E
-				IntensityModel.lessEqualThan(tr.getLongitudes(),190):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.lessEqualThan(tr.getXPositions(),190):IntensityModel.newBooleans(tr.getTCount());
 			
 			boolean[] PEFCS=IntensityModel.greaterEqualThan(efcsm.getData()[1][0][0],EFCThreshold);
 			boolean[] VWSL =IntensityModel.greaterEqualThan(vwsm.getData()[0][0][0],VWSThreshold);
@@ -149,8 +149,8 @@ public class VWSEFC{
 		
 		
 		public void addDrawScript(Typhoon tr,int l,float[] E,float[] V,float[] S,float[] M_W){
-			int xctr=ctl.getXLENum(tr.getLongitudes()[l]);
-			int yctr=ctl.getYLENum(tr.getLatitudes()[l]);
+			int xctr=ctl.getXLENum(tr.getXPositions()[l]);
+			int yctr=ctl.getYLENum(tr.getYPositions()[l]);
 			
 			int radx=10;
 			int rady= 8;
@@ -158,8 +158,8 @@ public class VWSEFC{
 			int xstr=xctr-radx+1,xend=xctr+radx+2;
 			int ystr=yctr-rady+1,yend=yctr+rady+2;
 			
-			float wholeU=tr.getZonalVelocity()[l];
-			float wholeV=tr.getMeridionalVelocity()[l];
+			float wholeU=tr.getUVel()[l];
+			float wholeV=tr.getVVel()[l];
 			
 			float[] rw=tr.getStormRelativeWinds();
 			float[] pr=tr.getPressures();
@@ -188,7 +188,7 @@ public class VWSEFC{
 			sb1.append("'set arrowhead -0.35'\n");
 			sb1.append("'set rbrange 0 80'\n");
 			sb1.append("'d u;v'\n");
-			sb1.append("'drawmark 3 "+tr.getLongitudes()[l]+" "+tr.getLatitudes()[l]+" 0.2 '\n");
+			sb1.append("'drawmark 3 "+tr.getXPositions()[l]+" "+tr.getYPositions()[l]+" 0.2 '\n");
 			sb1.append("'draw title "+(tr.getName()==null?"":tr.getName())+" "+
 				tim.toGradsDate()+
 				"\\P:"  +String.format("%.1f",pr[l])+
@@ -206,7 +206,7 @@ public class VWSEFC{
 			sb1.append("'set rbrange 0 40'\n");
 			sb1.append("'set rbcols auto'\n");
 			sb1.append("'d u;v;mag(u,v)'\n");
-			sb1.append("'drawmark 3 "+tr.getLongitudes()[l]+" "+tr.getLatitudes()[l]+" 0.2 '\n");
+			sb1.append("'drawmark 3 "+tr.getXPositions()[l]+" "+tr.getYPositions()[l]+" 0.2 '\n");
 			sb1.append("'draw title" +
 				" EFC:" +String.format("%.1f",E[l])+
 				" VWS:" +String.format("%.1f",V[l])+
@@ -227,7 +227,7 @@ public class VWSEFC{
 			sb1.append("'set arrowhead -0.35'\n");
 			sb1.append("'set rbrange 0 80'\n");
 			sb1.append("'d u-"+wholeU+";v-"+wholeV+"'\n");
-			sb1.append("'drawmark 3 "+tr.getLongitudes()[l]+" "+tr.getLatitudes()[l]+" 0.2 '\n");
+			sb1.append("'drawmark 3 "+tr.getXPositions()[l]+" "+tr.getYPositions()[l]+" 0.2 '\n");
 			sb1.append("'draw title "+(tr.getName()==null?"":tr.getName())+" "+
 				tim.toGradsDate()+
 				"\\P:"  +String.format("%.1f",pr[l])+
@@ -245,7 +245,7 @@ public class VWSEFC{
 			sb1.append("'set rbrange 0 40'\n");
 			sb1.append("'set rbcols auto'\n");
 			sb1.append("'d u-"+wholeU+";v-"+wholeV+";mag(u-"+wholeU+",v-"+wholeV+")'\n");
-			sb1.append("'drawmark 3 "+tr.getLongitudes()[l]+" "+tr.getLatitudes()[l]+" 0.2 '\n");
+			sb1.append("'drawmark 3 "+tr.getXPositions()[l]+" "+tr.getYPositions()[l]+" 0.2 '\n");
 			sb1.append("'draw title" +
 				" EFC:" +String.format("%.1f",E[l])+
 				" VWS:" +String.format("%.1f",V[l])+

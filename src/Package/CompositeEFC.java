@@ -118,7 +118,7 @@ public class CompositeEFC{
 			
 			Variable relU=vars[0].copy();
 			Variable relV=vars[1].copy();
-			cRelativeVelocity(relU,relV,tr.getZonalVelocity(),tr.getMeridionalVelocity());
+			cRelativeVelocity(relU,relV,tr.getUVel(),tr.getVVel());
 			Variable uthre=dm.cRadialAverage(relU,1,15).anomalizeX();		// 500 km
 			Variable vthre=dm.cRadialAverage(relV,1,15).anomalizeX();		// 500 km
 			
@@ -126,7 +126,7 @@ public class CompositeEFC{
 			Variable sstm=dm.cRadialAverage(vars[2],1,15).anomalizeX().minusEq(273.15f);
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			Variable utm=utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			Variable flux =utvr[0].multiply(utvr[1]);      // flux u'v'
@@ -158,8 +158,8 @@ public class CompositeEFC{
 			
 			boolean[] wind=noDepress?greaterEqualThan(tr.getWinds(),17.2f):newBooleans(tr.getTCount());
 			boolean[] lsmb=noLanding?lessThan(lsmm.getData()[0][0][0],1e-9f):newBooleans(tr.getTCount());
-			boolean[] llon=withinWNP?greaterEqualThan(tr.getLongitudes(),100):newBooleans(tr.getTCount());
-			boolean[] rlon=withinWNP?lessEqualThan(tr.getLongitudes(),190):newBooleans(tr.getTCount());
+			boolean[] llon=withinWNP?greaterEqualThan(tr.getXPositions(),100):newBooleans(tr.getTCount());
+			boolean[] rlon=withinWNP?lessEqualThan(tr.getXPositions(),190):newBooleans(tr.getTCount());
 			
 			boolean[] PEFCS=greaterEqualThan(efcsm.getData()[1][0][0],threshold);
 			boolean[] NEFCS=lessEqualThan(efcsm.getData()[1][0][0],-threshold);
@@ -570,8 +570,8 @@ public class CompositeEFC{
 			aveISB+=I[l]*1e9f;
 			aveETA+=eta[l]*1e5f;
 			
-			int xctr=ctl.getXLENum(tr.getLongitudes()[l]);
-			int yctr=ctl.getYLENum(tr.getLatitudes()[l]);
+			int xctr=ctl.getXLENum(tr.getXPositions()[l]);
+			int yctr=ctl.getYLENum(tr.getYPositions()[l]);
 			
 			int radx=10;
 			int rady= 8;
@@ -579,8 +579,8 @@ public class CompositeEFC{
 			int xstr=xctr-radx+1,xend=xctr+radx+2;
 			int ystr=yctr-rady+1,yend=yctr+rady+2;
 			
-			float wholeU=tr.getZonalVelocity()[l];
-			float wholeV=tr.getMeridionalVelocity()[l];
+			float wholeU=tr.getUVel()[l];
+			float wholeV=tr.getVVel()[l];
 			
 			float[] rw=tr.getStormRelativeWinds();
 			float[] pr=tr.getPressures();
@@ -598,7 +598,7 @@ public class CompositeEFC{
 			sb1.append("'set arrowhead -0.35'\n");
 			sb1.append("'set rbrange 0 80'\n");
 			sb1.append("'d u;v;mag(u,v)'\n");
-			sb1.append("'drawmark 3 "+tr.getLongitudes()[l]+" "+tr.getLatitudes()[l]+" 0.2 '\n");
+			sb1.append("'drawmark 3 "+tr.getXPositions()[l]+" "+tr.getYPositions()[l]+" 0.2 '\n");
 			sb1.append("'draw title "+(tr.getName()==null?"":tr.getName())+" "+
 				md.toGradsDate()+
 				"\\P:"  +String.format("%.1f",pr[l])+
@@ -616,7 +616,7 @@ public class CompositeEFC{
 			sb1.append("'set rbrange 0 40'\n");
 			sb1.append("'set rbcols auto'\n");
 			sb1.append("'d u;v;mag(u,v)'\n");
-			sb1.append("'drawmark 3 "+tr.getLongitudes()[l]+" "+tr.getLatitudes()[l]+" 0.2 '\n");
+			sb1.append("'drawmark 3 "+tr.getXPositions()[l]+" "+tr.getYPositions()[l]+" 0.2 '\n");
 			sb1.append("'draw title" +
 				" EFC:" +String.format("%.1f",E[l])+
 				" VWS:" +String.format("%.1f",V[l])+
@@ -635,7 +635,7 @@ public class CompositeEFC{
 			sb1.append("'set arrowhead -0.35'\n");
 			sb1.append("'set rbrange 0 80'\n");
 			sb1.append("'d u-"+wholeU+";v-"+wholeV+";mag(u-"+wholeU+",v-"+wholeV+")'\n");
-			sb1.append("'drawmark 3 "+tr.getLongitudes()[l]+" "+tr.getLatitudes()[l]+" 0.2 '\n");
+			sb1.append("'drawmark 3 "+tr.getXPositions()[l]+" "+tr.getYPositions()[l]+" 0.2 '\n");
 			sb1.append("'draw title "+(tr.getName()==null?"":tr.getName())+" "+
 				md.toGradsDate()+
 				"\\P:"  +String.format("%.1f",pr[l])+
@@ -653,7 +653,7 @@ public class CompositeEFC{
 			sb1.append("'set rbrange 0 40'\n");
 			sb1.append("'set rbcols auto'\n");
 			sb1.append("'d u-"+wholeU+";v-"+wholeV+";mag(u-"+wholeU+",v-"+wholeV+")'\n");
-			sb1.append("'drawmark 3 "+tr.getLongitudes()[l]+" "+tr.getLatitudes()[l]+" 0.2 '\n");
+			sb1.append("'drawmark 3 "+tr.getXPositions()[l]+" "+tr.getYPositions()[l]+" 0.2 '\n");
 			sb1.append("'draw title" +
 				" EFC:" +String.format("%.1f",E[l])+
 				" VWS:" +String.format("%.1f",V[l])+

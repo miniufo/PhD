@@ -87,8 +87,8 @@ public class PRIAnimation{
 		
 		sb.append("'open "+path+name+"/PRI/PRIanimation.ctl'\n");
 		sb.append("'open "+path+name+"/PRI/intensity.ctl'\n\n");
-		sb.append("lons=\""); for(int l=0;l<tr.getTCount();l++) sb.append(tr.getLongitudes()[l]+" "); sb.append("\"\n");
-		sb.append("lats=\""); for(int l=0;l<tr.getTCount();l++) sb.append(tr.getLongitudes()[l]+" "); sb.append("\"\n\n");
+		sb.append("lons=\""); for(int l=0;l<tr.getTCount();l++) sb.append(tr.getXPositions()[l]+" "); sb.append("\"\n");
+		sb.append("lats=\""); for(int l=0;l<tr.getTCount();l++) sb.append(tr.getXPositions()[l]+" "); sb.append("\"\n\n");
 		sb.append("'set rgb 16   0   0 255'\n");
 		sb.append("'set rgb 17  55  55 255'\n");
 		sb.append("'set rgb 18 110 110 255'\n");

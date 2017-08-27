@@ -86,7 +86,7 @@ public class ScatterFactors{
 			Variable sstm=dm.cRadialAverage(vars[2],1,15).anomalizeX().minusEq(273.15f);
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			Variable utm=utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			Variable efclm=dm.cREFC(utvr[0],utvr[1]).averageAlong(Dimension.Y,15,24);	// 500-800 km
@@ -101,9 +101,9 @@ public class ScatterFactors{
 			boolean[] lsmb=noLanding?	// no land within 200 km
 				IntensityModel.lessThan(lsmm.getData()[0][0][0],1e-9f):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] llon=withinWNP?	// lons >= 100E
-				IntensityModel.greaterEqualThan(tr.getLongitudes(),100):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.greaterEqualThan(tr.getXPositions(),100):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] rlon=withinWNP?	// lons <= 190E
-				IntensityModel.lessEqualThan(tr.getLongitudes(),190):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.lessEqualThan(tr.getXPositions(),190):IntensityModel.newBooleans(tr.getTCount());
 			
 			boolean[] vali=IntensityModel.combination(wind,lsmb,llon,rlon);
 			
@@ -134,11 +134,11 @@ public class ScatterFactors{
 				forwardDf?
 				Typhoon.getChangesByForwardDiff(pres,deltaP_interval):					// delta pressure
 				Typhoon.getChangesByCentralDiff(pres),						
-				tr.getZonalVelocity(),													// zonal translating speed
-				tr.getMeridionalVelocity(),												// meridional translating speed
+				tr.getUVel(),													// zonal translating speed
+				tr.getVVel(),												// meridional translating speed
 				tr.getSpeeds(),															// translating speed
-				tr.getLongitudes(),														// longitudes
-				tr.getLatitudes(),														// latitudes
+				tr.getXPositions(),														// longitudes
+				tr.getYPositions(),														// latitudes
 				magm.getData()[1][0][0],
 				getTypes(tr),
 				isbym.getData()[1][0][0]												// inertial stability

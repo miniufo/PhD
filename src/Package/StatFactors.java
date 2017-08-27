@@ -79,7 +79,7 @@ public class StatFactors{
 			Variable sstm=dm.cRadialAverage(vars[2],1,15).anomalizeX().minusEq(273.15f);
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			Variable efclm=dm.cREFC(utvr[0],utvr[1]).averageAlong(Dimension.Y,15,24);	// 500-800 km
@@ -93,9 +93,9 @@ public class StatFactors{
 			boolean[] lsmb=noLanding?	// no land within 200 km
 				IntensityModel.lessThan(lsmm.getData()[0][0][0],1e-9f):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] llon=withinWNP?	// lons >= 100E
-				IntensityModel.greaterEqualThan(tr.getLongitudes(),100):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.greaterEqualThan(tr.getXPositions(),100):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] rlon=withinWNP?	// lons <= 190E
-				IntensityModel.lessEqualThan(tr.getLongitudes(),190):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.lessEqualThan(tr.getXPositions(),190):IntensityModel.newBooleans(tr.getTCount());
 			
 			boolean[] vali=IntensityModel.combination(wind,lsmb,llon,rlon);
 			
@@ -187,8 +187,8 @@ public class StatFactors{
 			float[] dpr=forwardDf?
 				Typhoon.getChangesByForwardDiff(tr.getPressures(),1):
 				Typhoon.getChangesByCentralDiff(tr.getPressures());
-			float[] lon=tr.getLongitudes();
-			float[] lat=tr.getLatitudes();
+			float[] lon=tr.getXPositions();
+			float[] lat=tr.getYPositions();
 			
 			try{
 				for(int l=0;l<len;l++)
@@ -226,8 +226,8 @@ public class StatFactors{
 			throw new IllegalArgumentException("lengths not equal");
 			
 			float[] dwd=Typhoon.getChangesByCentralDiff(tr.getWinds());
-			float[] lon=tr.getLongitudes();
-			float[] lat=tr.getLatitudes();
+			float[] lon=tr.getXPositions();
+			float[] lat=tr.getYPositions();
 			
 			try{
 				for(int l=0;l<len;l++)

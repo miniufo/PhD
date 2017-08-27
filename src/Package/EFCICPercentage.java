@@ -82,7 +82,7 @@ public class EFCICPercentage{
 			Variable sstm=dm.cRadialAverage(vars[2],1,15).anomalizeX().minusEq(273.15f);
 			
 			Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-			dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+			dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 			
 			utvr[0].anomalizeX();	utvr[1].anomalizeX();
 			//Variable efcsm=dm.cRadialAverage(dm.cREFC(utvr[0],utvr[1]),15,27);	// 500-900 km
@@ -99,9 +99,9 @@ public class EFCICPercentage{
 			boolean[] lsmb=noLanding?	// no land within 200 km
 				IntensityModel.lessThan(lsmm.getData()[0][0][0],1e-9f):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] llon=withinWNP?	// lons >= 100E
-				IntensityModel.greaterEqualThan(tr.getLongitudes(),100):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.greaterEqualThan(tr.getXPositions(),100):IntensityModel.newBooleans(tr.getTCount());
 			boolean[] rlon=withinWNP?	// lons <= 190E
-				IntensityModel.lessEqualThan(tr.getLongitudes(),190):IntensityModel.newBooleans(tr.getTCount());
+				IntensityModel.lessEqualThan(tr.getXPositions(),190):IntensityModel.newBooleans(tr.getTCount());
 			
 			float[] EFC=efcsm.getData()[1][0][0];
 			float[] VWS= vwsm.getData()[0][0][0];
@@ -628,7 +628,7 @@ public class EFCICPercentage{
 			
 			for(int l=str,L=str+N;l<L;l++)
 			sb.append(String.format("%10d, %4.1f��N, %5.1f��E, %5.1f, %5.1f, %4.1f, %4.1f, %5.1f, %7.1f, %5.1f,   %5b, %5b\n",
-				times[l],tr.getLatitudes()[l],tr.getLongitudes()[l],
+				times[l],tr.getYPositions()[l],tr.getXPositions()[l],
 				EFC[l-str],SST[l-str],VWS[l-str],POT[l-str],pres[l],pch[l-str],landing[l],hasPoten[l]
 			));
 			

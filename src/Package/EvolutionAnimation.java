@@ -52,11 +52,11 @@ public class EvolutionAnimation{
 		sb.append("'enable print "+path.replace("gs","gmf")+"'\n\n");
 		
 		sb.append("lons=\"");
-		for(int i=0;i<tr.getTCount();i++) sb.append(tr.getLongitudes()[i]+" ");
+		for(int i=0;i<tr.getTCount();i++) sb.append(tr.getXPositions()[i]+" ");
 		sb.append("\"\n");
 		
 		sb.append("lats=\"");
-		for(int i=0;i<tr.getTCount();i++) sb.append(tr.getLatitudes()[i]+" ");
+		for(int i=0;i<tr.getTCount();i++) sb.append(tr.getYPositions()[i]+" ");
 		sb.append("\"\n\n");
 		
 		sb.append("'set grads off'\n");

@@ -132,7 +132,7 @@ public class ElenaLike{
 		Variable sstm=dm.cRadialAverage(vars[2],1,15).anomalizeX().minusEq(273.15f);
 		
 		Variable[] utvr=ct.reprojectToCylindrical(vars[0],vars[1]);
-		dm.cStormRelativeAziRadVelocity(tr.getZonalVelocity(),tr.getMeridionalVelocity(),utvr[0],utvr[1]);
+		dm.cStormRelativeAziRadVelocity(tr.getUVel(),tr.getVVel(),utvr[0],utvr[1]);
 		
 		Variable utm=utvr[0].anomalizeX();	utvr[1].anomalizeX();
 		Variable efcsm=dm.cREFC(utvr[0],utvr[1]).averageAlong(Dimension.Y, 9,18);	// 300-600 km
@@ -196,8 +196,8 @@ public class ElenaLike{
 		
 		/**** write gs ****/
 		StringBuilder gs=new StringBuilder();
-		gs.append(rec.name+"lons=\""); for(int i=0;i<tr.getTCount();i++) gs.append(tr.getLongitude(i)+" "); gs.append("\"\n");
-		gs.append(rec.name+"lats=\""); for(int i=0;i<tr.getTCount();i++) gs.append(tr.getLatitude(i) +" "); gs.append("\"\n");
+		gs.append(rec.name+"lons=\""); for(int i=0;i<tr.getTCount();i++) gs.append(tr.getXPosition(i)+" "); gs.append("\"\n");
+		gs.append(rec.name+"lats=\""); for(int i=0;i<tr.getTCount();i++) gs.append(tr.getYPosition(i) +" "); gs.append("\"\n");
 		gs.append(rec.name+"type=\""); for(int i=0;i<tr.getTCount();i++) gs.append(tr.getTypes()[i]  +" "); gs.append("\"\n\n");
 		
 		gs.append("'open D:/Data/ERAInterim/Data.ctl'\n");
