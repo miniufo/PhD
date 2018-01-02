@@ -185,8 +185,8 @@ public class StatFactors{
 			throw new IllegalArgumentException("lengths not equal");
 			
 			float[] dpr=forwardDf?
-				Typhoon.getChangesByForwardDiff(tr.getPressures(),1):
-				Typhoon.getChangesByCentralDiff(tr.getPressures());
+				IntensityModel.getChangesByForwardDiff(tr.getPressures(),1):
+				IntensityModel.getChangesByCentralDiff(tr.getPressures());
 			float[] lon=tr.getXPositions();
 			float[] lat=tr.getYPositions();
 			
@@ -225,7 +225,7 @@ public class StatFactors{
 			if(len!=data.length||len!=valid.length)
 			throw new IllegalArgumentException("lengths not equal");
 			
-			float[] dwd=Typhoon.getChangesByCentralDiff(tr.getWinds());
+			float[] dwd=IntensityModel.getChangesByCentralDiff(tr.getWinds());
 			float[] lon=tr.getXPositions();
 			float[] lat=tr.getYPositions();
 			

@@ -8,7 +8,6 @@ import miniufo.application.basic.DynamicMethodsInCC;
 import miniufo.basic.ArrayUtil;
 import miniufo.database.AccessBestTrack;
 import miniufo.database.AccessBestTrack.DataSets;
-import miniufo.database.DataBaseUtil;
 import miniufo.descriptor.CsmDescriptor;
 import miniufo.descriptor.CtlDescriptor;
 import miniufo.diagnosis.CylindricalSpatialModel;
@@ -33,7 +32,7 @@ public class ScatterFactors{
 	private static float maxLat=-90;
 	private static float maxLon=  0;
 	
-	private static final float undef=DataBaseUtil.undef;
+	private static final float undef=IntensityModel.undef;
 	
 	private static final boolean noDepress=true;	// wind > 17.2 m/s
 	private static final boolean noLanding=true;	// no land within 200 km
@@ -120,20 +119,20 @@ public class ScatterFactors{
 				mwnd,																	// wind
 				srwd,																	// storm-relative wind
 				pres,																	// pressure
-				Typhoon.getChangesByCentralDiff(sstm.getData()[0][0][0]),						// delta SST
-				Typhoon.getChangesByCentralDiff(vwsm.getData()[0][0][0]),						// delta VWS
-				Typhoon.getChangesByCentralDiff(IntensityModel.cMPI(sstm.getData()[0][0][0])),	// delta MPI
-				Typhoon.getChangesByCentralDiff(efcsm.getData()[1][0][0]),						// delta EFCS
-				Typhoon.getChangesByCentralDiff(efclm.getData()[1][0][0]),						// delta EFCL
+				IntensityModel.getChangesByCentralDiff(sstm.getData()[0][0][0]),						// delta SST
+				IntensityModel.getChangesByCentralDiff(vwsm.getData()[0][0][0]),						// delta VWS
+				IntensityModel.getChangesByCentralDiff(IntensityModel.cMPI(sstm.getData()[0][0][0])),	// delta MPI
+				IntensityModel.getChangesByCentralDiff(efcsm.getData()[1][0][0]),						// delta EFCS
+				IntensityModel.getChangesByCentralDiff(efclm.getData()[1][0][0]),						// delta EFCL
 				forwardDf?
-				Typhoon.getChangesByForwardDiff(mwnd,deltaP_interval):
-				Typhoon.getChangesByCentralDiff(mwnd),									// delta wind
+				IntensityModel.getChangesByForwardDiff(mwnd,deltaP_interval):
+				IntensityModel.getChangesByCentralDiff(mwnd),									// delta wind
 				forwardDf?
-				Typhoon.getChangesByForwardDiff(srwd,deltaP_interval):
-				Typhoon.getChangesByCentralDiff(srwd),									// delta storm-relative wind
+				IntensityModel.getChangesByForwardDiff(srwd,deltaP_interval):
+				IntensityModel.getChangesByCentralDiff(srwd),									// delta storm-relative wind
 				forwardDf?
-				Typhoon.getChangesByForwardDiff(pres,deltaP_interval):					// delta pressure
-				Typhoon.getChangesByCentralDiff(pres),						
+				IntensityModel.getChangesByForwardDiff(pres,deltaP_interval):					// delta pressure
+				IntensityModel.getChangesByCentralDiff(pres),						
 				tr.getUVel(),													// zonal translating speed
 				tr.getVVel(),												// meridional translating speed
 				tr.getSpeeds(),															// translating speed

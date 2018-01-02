@@ -143,7 +143,7 @@ public class ElenaLike{
 		float[] SSTm= sstm.getData()[0][0][0];
 		float[] ETAm= etam.getData()[1][0][0];
 		float[] pres=tr.getPressures();
-		float[] dprs=Typhoon.getChangesByForwardDiff(pres,deltaP_interval);
+		float[] dprs=IntensityModel.getChangesByForwardDiff(pres,deltaP_interval);
 		float[] mpim=IntensityModel.cMPI(SSTm);
 		
 		Range r=new Range(tr.getTCount(),1,1,1);

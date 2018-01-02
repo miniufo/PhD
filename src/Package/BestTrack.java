@@ -1,8 +1,9 @@
-package Package;
 //
+package Package;
+
 import java.util.List;
+import miniufo.application.statisticsModel.BinningStatistics;
 import miniufo.database.AccessBestTrack;
-import miniufo.database.DataBaseUtil;
 import miniufo.database.AccessBestTrack.DataSets;
 import miniufo.descriptor.DataDescriptor;
 import miniufo.diagnosis.DiagnosisFactory;
@@ -26,16 +27,18 @@ public class BestTrack{
 		
 		DataWrite dw=DataIOFactory.getDataWrite(dd,"D:/Data/PhD/Climatology/BestTrack.dat");
 		
+		BinningStatistics bs=new BinningStatistics(dd);
+		
 		for(DataSets d:ds){
 			List<Typhoon> ls=
 			AccessBestTrack.getTyphoons("D:/Data/Typhoons/"+d+"/"+d+".txt","time=01Jan"+str+"-31Dec"+end,d);
 			
 			AccessBestTrack.recordsToFile(ls,"d:/Data/PhD/Climatology/"+d+".txt");
 			
-			Variable[] re1=DataBaseUtil.binningData(dd,ls,0,1);
-			Variable ace=DataBaseUtil.binningTCACE(dd,ls);
-			Variable foc=DataBaseUtil.binningCount(dd,ls);
-			Variable gfr=DataBaseUtil.binningTCGenesisFrequency(dd,ls);
+			Variable[] re1=bs.binningData(ls,0,1);
+			Variable ace=bs.binningTCACE(ls,r->true);
+			Variable foc=bs.binningCount(ls);
+			Variable gfr=bs.binningTCGenesisFrequency(ls,17.2f);
 			
 			re1[0].setName("uts"+d);	dw.writeData(re1[0]);
 			re1[1].setName("vts"+d);	dw.writeData(re1[1]);
@@ -44,7 +47,7 @@ public class BestTrack{
 			gfr.setName("gpt"+d);		dw.writeData(gfr);
 			
 			if(d!=DataSets.JTWC){
-				Variable[] re2=DataBaseUtil.binningTCTypeCount(dd,ls,TYPE.TD,TYPE.TS,TYPE.TY,TYPE.EC,TYPE.OTHERS);
+				Variable[] re2=bs.binningTCTypeCount(ls,r->true,TYPE.TD,TYPE.TS,TYPE.TY,TYPE.EC,TYPE.OTHERS);
 				
 				re2[0].setName("td"+d);	dw.writeData(re2[0]);
 				re2[1].setName("ts"+d);	dw.writeData(re2[1]);

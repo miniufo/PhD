@@ -183,12 +183,12 @@ public class CompositeEFC{
 			boolean[] combNEFCS_SW=combination(wind,NEFCS,lsmb,llon,rlon,inRange(degW,  45,22.5f));
 			
 			float[] deltaP=forwardDf?
-				Typhoon.getChangesByForwardDiff(tr.getPressures(),1):
-				Typhoon.getChangesByCentralDiff(tr.getPressures());
+				IntensityModel.getChangesByForwardDiff(tr.getPressures(),1):
+				IntensityModel.getChangesByCentralDiff(tr.getPressures());
 			
 			float[] deltaV=forwardDf?
-				Typhoon.getChangesByForwardDiff(tr.getStormRelativeWinds(),1):
-				Typhoon.getChangesByCentralDiff(tr.getStormRelativeWinds());
+				IntensityModel.getChangesByForwardDiff(tr.getStormRelativeWinds(),1):
+				IntensityModel.getChangesByCentralDiff(tr.getStormRelativeWinds());
 			
 			for(int l=0;l<tr.getTCount();l++){
 				if(EFCS[l]>20&&VWSM[l]<10&&deltaP[l]!=-9999f){

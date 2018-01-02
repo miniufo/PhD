@@ -5,6 +5,9 @@ import static java.lang.Math.exp;
 
 //
 public final class IntensityModel{
+	//
+	public static final float undef=-9999;
+	
 	
 	// compute maximum potential intensity based on SST
 	public static float[] cMPI(float[] sst){
@@ -209,6 +212,42 @@ public final class IntensityModel{
 		if(Math.abs(data[i])<threshold) del[i]=true;
 		
 		return del;
+	}
+	
+	
+	/**
+	 * Compute changes of the data (delta-data) using centered time differencing.
+	 * The first and last are computed using one-sided time differencing.
+	 */
+	public static float[] getChangesByCentralDiff(float[] data){
+		int N=data.length;
+		
+		if(N==1) return new float[1];
+		
+		float[] ch=new float[N];
+		
+		ch[0]=data[1]-data[0];
+		
+		for(int l=1,L=N-1;l<L;l++) ch[l]=data[l+1]-data[l-1];
+		
+		ch[N-1]=data[N-1]-data[N-2];
+		
+		return ch;
+	}
+	
+	/**
+	 * Compute changes of the data (delta-data) using forward time differencing.
+	 */
+	public static float[] getChangesByForwardDiff(float[] data,int interv){
+		int N=data.length;
+		
+		float[] ch=new float[N];
+		
+		for(int l=0;l<N;l++) ch[l]=undef;
+		
+		for(int l=0,L=N-interv;l<L;l++) ch[l]=data[l+interv]-data[l];
+		
+		return ch;
 	}
 	
 	

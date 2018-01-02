@@ -225,9 +225,9 @@ public class ScriptEFC{
 			sb1.append("'draw title "+(tr.getName()==null?"":tr.getName())+" "+
 				tim.toGradsDate()+
 				"\\P:"  +String.format("%.1f",pr[l])+
-				" dP:" +String.format("%.1f",forwardDf?Typhoon.getChangesByForwardDiff(pr,1)[l]:Typhoon.getChangesByCentralDiff(pr)[l])+
+				" dP:" +String.format("%.1f",forwardDf?IntensityModel.getChangesByForwardDiff(pr,1)[l]:IntensityModel.getChangesByCentralDiff(pr)[l])+
 				" V:"  +String.format("%.1f",rw[l])+
-				" dV:" +String.format("%.1f",forwardDf?Typhoon.getChangesByForwardDiff(rw,1)[l]:Typhoon.getChangesByCentralDiff(rw)[l])+
+				" dV:" +String.format("%.1f",forwardDf?IntensityModel.getChangesByForwardDiff(rw,1)[l]:IntensityModel.getChangesByCentralDiff(rw)[l])+
 				" M-W:"+String.format("%.1f",M_W[l])+"'\n\n"
 			);
 			sb1.append("'setvpage 2 2.4 1 1'\n");
@@ -273,9 +273,9 @@ public class ScriptEFC{
 			sb1.append("'draw title "+(tr.getName()==null?"":tr.getName())+" "+
 				tim.toGradsDate()+
 				"\\P:"  +String.format("%.1f",pr[l])+
-				" dP:" +String.format("%.1f",forwardDf?Typhoon.getChangesByForwardDiff(pr,1)[l]:Typhoon.getChangesByCentralDiff(pr)[l])+
+				" dP:" +String.format("%.1f",forwardDf?IntensityModel.getChangesByForwardDiff(pr,1)[l]:IntensityModel.getChangesByCentralDiff(pr)[l])+
 				" V:"  +String.format("%.1f",rw[l])+
-				" dV:" +String.format("%.1f",forwardDf?Typhoon.getChangesByForwardDiff(rw,1)[l]:Typhoon.getChangesByCentralDiff(rw)[l])+
+				" dV:" +String.format("%.1f",forwardDf?IntensityModel.getChangesByForwardDiff(rw,1)[l]:IntensityModel.getChangesByCentralDiff(rw)[l])+
 				" M-W:"+String.format("%.1f",M_W[l])+"'\n\n"
 			);
 			sb1.append("'setvpage 2 2.4 1 2'\n");
