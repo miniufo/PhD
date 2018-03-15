@@ -35,7 +35,7 @@ public class BestTrack{
 			
 			AccessBestTrack.recordsToFile(ls,"d:/Data/PhD/Climatology/"+d+".txt");
 			
-			Variable[] re1=bs.binningData(ls,0,1);
+			Variable[] re1=bs.binningData(ls,Typhoon.UVEL,Typhoon.VVEL);
 			Variable ace=bs.binningTCACE(ls,r->true);
 			Variable foc=bs.binningCount(ls);
 			Variable gfr=bs.binningTCGenesisFrequency(ls,17.2f);
